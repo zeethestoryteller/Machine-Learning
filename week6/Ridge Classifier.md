@@ -36,7 +36,10 @@ y_pred = ridge_classifier.predict(X_test)
 
 * **Customization & Parameters:**
 * **Regularization ($\alpha$):** Set via `alpha` (default is `0.1`). Must be positive; larger values specify stronger regularization.
-* **Solvers:** Optimization can be configured using the `solver` parameter. Options include
+* **Solvers:** Optimization can be configured using the `solver` parameter.
+```python
+ridge_classifier = RidgeClassifier(solver=auto)
+```
   * `'auto'`:  By default, it uses `'auto'`.
   * `'svd'`: uses a Singular Value Decomposition of the feature matrix to
 compute the Ridge coefficients.
@@ -48,4 +51,6 @@ compute the Ridge coefficients.
   * `'sag', 'saga' `: For Large Datasets, When both $n_{samples}$ and $n_{features}$ are large
   * `'lbfgs'`:For Small Datasets
 * **Intercept:** Controlled via `fit_intercept` (default is `True`). Set to `False` if the data is already centered.
-  * `ridge_classifier = RidgeClassifier(fit_intercept=True)`
+```python
+ridge_classifier = RidgeClassifier(fit_intercept=True)
+```
