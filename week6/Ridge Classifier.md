@@ -34,8 +34,11 @@ y_pred = ridge_classifier.predict(X_test)
 
 
 
-* **Customization & Parameters:**
+### Customization & Parameters
 * **Regularization ($\alpha$):** Set via `alpha` (default is `0.1`). Must be positive; larger values specify stronger regularization.
+```python
+ridge_classifier = RidgeClassifier(alpha=0.001)
+```
 * **Solvers:** Optimization can be configured using the `solver` parameter.
 ```python
 ridge_classifier = RidgeClassifier(solver=auto)
