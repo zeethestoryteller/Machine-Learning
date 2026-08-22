@@ -54,9 +54,9 @@ By changing the `loss` parameter, `SGDClassifier` can implement various linear m
 ### 4. Regularization Parameters (`penalty` & `alpha`)
 
 * **`penalty` type:**
-* `'l2'` (Default): Adds an L2 penalty term.
-* `'l1'`: Adds an L1 penalty term.
-* `'elasticnet'`: Convex combination of L1 and L2 penalties:
+* `'l2'` (Default): Ridge regularizer, Adds an L2 penalty term.
+* `'l1'`: Lasso regularizer, Adds an L1 penalty term.
+* `'elasticnet'`: Convex combination of L1 and L2 penalties, include the `l1_ratio` parameter:
 
 $$\text{Penalty} = (1 - \text{l1 ratio}) \times L2 + \text{l1 ratio} \times L1$$
 
