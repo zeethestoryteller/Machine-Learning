@@ -97,7 +97,15 @@ $$\frac{\text{TP}}{\text{TP} + \text{FP}} = \frac{928}{928 + 44} \approx 0.95$$
 $$\frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{928}{928 + 52} \approx 0.95$$
 
 ---
+**Way-1 (`cross_validate`):**
+Isme model ko 5 alag-alag folds par train aur test kiya jata hai, aur har fold ke metrics (jaise precision, recall, f1) ka average nikal kar score bataya jata hai. Is tarike mein aapko predictions ki poori list ek sath nahi milti jisse aap direct confusion matrix bana sakein.
 
+**Way-2 (`cross_val_predict`):**
+Isme cross-validation background mein chalti hai, lekin har training sample ko strictly ek hi baar test set ka hissa banaya jata hai. Matlab jab model us sample par predict kar raha hota hai, toh woh usne training ke dauran nahi dekha hota.
+
+Iska sabse bada fayda yeh hai ki yeh function aapko poore training dataset ke liye cross-validated predicted labels (y_hat_train_0) wapas de deta hai. Is vajah se aap bina kisi data leakage ke poore 60,000 training samples ka ek single Confusion Matrix plot kar sakte hain (jaisa aapke notebook ki screenshot mein dikh raha hai: TN=53861, FP=216, FN=453, TP=5470).
+
+---
 ## 5. Classification Report
 
 The `classification_report` function generates a text summary showing key metrics per class:
