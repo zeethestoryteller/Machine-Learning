@@ -47,7 +47,54 @@ A tabular layout that visualizes the performance of a classification model.
 * `ConfusionMatrixDisplay.from_estimator(clf, X_test, y_test)`
 * `ConfusionMatrixDisplay.from_predictions(y_test, y_pred)`
 
+<img width="466" height="337" alt="image" src="https://github.com/user-attachments/assets/99cb3351-d312-419c-bce4-557a6f367a96" />
 
+
+>1. Understanding the Layout
+
+A confusion matrix compares the **True Labels** (actual reality) against the **Predicted Labels** (what your model guessed).
+
+In your specific example:
+
+* **Rows** represent the **True Label** (`-1.0` meaning *not zero*, and `1.0` meaning *is zero*).
+* **Columns** represent the **Predicted Label** (`-1.0` meaning the model predicted *not zero*, and `1.0` meaning the model predicted *is zero*).
+
+>2. Breaking Down the Four Quadrants
+
+Looking at the matrix in your viewport:
+
+* **Top-Left (8,976): True Negatives (TN)**
+* **What it means:** The actual digit was **not zero** (`-1.0`), and the model correctly predicted it was **not zero** (`-1.0`).
+
+
+* **Top-Right (44): False Positives (FP) / Type I Error**
+* **What it means:** The actual digit was **not zero** (`-1.0`), but the model incorrectly guessed that it **was zero** (`1.0`).
+
+
+* **Bottom-Left (52): False Negatives (FN) / Type II Error**
+* **What it means:** The actual digit **was zero** (`1.0`), but the model incorrectly guessed that it was **not zero** (`-1.0`).
+
+
+* **Bottom-Right (928): True Positives (TP)**
+* **What it means:** The actual digit **was zero** (`1.0`), and the model correctly predicted that it **was zero** (`1.0`).
+
+>3. Quick Formulas to Calculate Metrics From It
+
+You can easily calculate standard evaluation metrics straight from these four numbers:
+
+* **Accuracy:** Overall correct predictions out of everything.
+
+$$\frac{\text{TN} + \text{TP}}{\text{TN} + \text{FP} + \text{FN} + \text{TP}} = \frac{8976 + 928}{8976 + 44 + 52 + 928} \approx 0.99$$
+
+
+* **Precision:** Out of all the times the model *predicted* zero, how often was it actually correct?
+
+$$\frac{\text{TP}}{\text{TP} + \text{FP}} = \frac{928}{928 + 44} \approx 0.95$$
+
+
+* **Recall:** Out of all the *actual* zeros in the dataset, how many did the model successfully catch?
+
+$$\frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{928}{928 + 52} \approx 0.95$$
 
 ---
 
