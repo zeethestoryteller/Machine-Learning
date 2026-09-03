@@ -304,7 +304,7 @@ print(study.best_params, study.best_value)
 
 ---
 
-* **Key Takeaways**
+**Key Takeaways**
 
 | Algorithm | When to use | Key hyperparameter |
 | --- | --- | --- |
