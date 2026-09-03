@@ -135,7 +135,7 @@ labels = agg.fit_predict(X_scaled)
 **Algorithm**
 Parameters: $\epsilon$ (epsilon) = neighbourhood radius, `min_samples` = core point threshold
 
-* Core point: has $\ge \text{min\_samples}$ within $\epsilon$
+* Core point: has $\ge \text{min samples}$ within $\epsilon$
 * Border point: within $\epsilon$ of a core point but not core itself
 * Noise point: not reachable from any core point (label = -1)
 * Strengths: finds arbitrary shapes, detects outliers automatically
@@ -274,7 +274,7 @@ hs.fit(X_train, y_train)
 
 * **Problem:** What exactly do `n_iter` and `cv` control in `RandomizedSearchCV`?
 * **Reasoning:** People often confuse these two. `n_iter` is the number of **random parameter combinations** the search will try. `cv` is the number of **cross-validation folds** trained **for each combination**.
-* **Result:** The total number of model fits is $\text{n\_iter} \times \text{cv}$.
+* **Result:** The total number of model fits is $\text{n iter} \times \text{cv}$.
 * **Tip:** Increasing `n_iter` explores more of the hyperparameter space. Increasing `cv` gives a more reliable score estimate for each point in that space.
 
 **Bayesian Optimisation with Optuna**
@@ -310,7 +310,7 @@ print(study.best_params, study.best_value)
 | --- | --- | --- |
 | K-Means | Large data, convex clusters | $k$ (use silhouette) |
 | HAC | Small data, hierarchy matters | linkage (use ward) |
-| DBSCAN | Arbitrary shapes, detect outliers | $\text{eps}$, $\text{min\_samples}$ |
+| DBSCAN | Arbitrary shapes, detect outliers | $\text{eps}$, $\text{min samples}$ |
 | GMM | Soft assignments, elliptical | `n_components` (BIC) |
 | GridSearch | Small, discrete param space | `cv`, `scoring` |
 | RandomizedSearch | Large/continuous space | `n_iter` |
