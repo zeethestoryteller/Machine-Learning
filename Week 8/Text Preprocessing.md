@@ -103,4 +103,24 @@ Lemmatized: The cat were running faster than the mouse , and they played joyfull
 
 ```
 
-*(Note: To convert verbs like "running" or "played" into their base infinitive verbs like "run" or "play", you can pass a Part-of-Speech tag like `pos='v'` to `lemmatizer.lemmatize(word, pos='v')`.)*
+### *Note:*
+>To convert verbs like "running" or "played" into their base infinitive verbs like "run" or "play", you can pass a Part-of-Speech tag like `pos='v'` to `lemmatizer.lemmatize(word, pos='v')`.)
+
+>If we set `pos='v' ` with for every word then WordNet will be confuse so it changes nouns to their root form as well.
+
+# Preprocessing Decision Table
+
+| Step | Do it when |
+| --- | --- |
+| Lowercase | Almost always |
+| Remove punctuation | Bag-of-words models |
+| Remove stop words | Short documents, topic detection |
+| Keep stop words | Sentiment (not bad vs very bad) |
+| Lemmatise/stem | Small vocabulary, morphologically rich languages |
+| Keep numbers | Finance, technical texts |
+| N-grams (1,2) | Capture phrases like "not good" |
+
+
+
+
+
