@@ -58,6 +58,7 @@ Walking through it:
 **Step 2 — Isolate raters:** Who rated Movie3? Both B (5) and C (2).
 
 **Step 3 — Weighted average:**
+
 $$\text{Prediction} = \frac{\text{Sim}_{AB} \times \text{Rating}_{B3} + \text{Sim}_{AC} \times \text{Rating}_{C3}}{\text{Sim}_{AB} + \text{Sim}_{AC}}$$
 
 Since Sim_AB dominates, the prediction lands close to B's rating (5) — the math naturally "listens more" to the taste-twin and mostly ignores the dissimilar user, even though both technically rated the movie.
