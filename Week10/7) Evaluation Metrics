@@ -1,0 +1,88 @@
+# Topic 9: Evaluation Metrics
+
+**The core question:** you've built several recommenders — how do you know if they're actually *good*? There are two very different families of metrics here, and mixing them up is a common mistake.
+
+### Family 1: Rating prediction accuracy (RMSE / MAE)
+
+```python
+from sklearn.metrics import mean_squared_error, mean_absolute_error
+
+rmse = np.sqrt(mean_squared_error(y_true_ratings, y_pred_ratings))
+mae  = mean_absolute_error(y_true_ratings, y_pred_ratings)
+```
+
+- These ask: "if the true rating was 4.0 and we predicted 3.6, how far off were we?"
+- **MAE** (Mean Absolute Error) — average of `|true - predicted|` across all predictions. Simple, intuitive: "on average we're off by X stars."
+- **RMSE** (Root Mean Squared Error) — squares the errors before averaging, then square-roots the result. Squaring **punishes large errors much more** than small ones — being off by 2 stars contributes 4x the penalty of being off by 1 star, not 2x. This makes RMSE more sensitive to occasional big misses.
+- **Both are "lower is better."**
+
+**The catch:** these metrics only make sense if you held out some *known* ratings during training and compare predictions against them (a train/test split) — the doc's snippet assumes `y_true_ratings`/`y_pred_ratings` already exist from that process.
+
+### Family 2: Ranking metrics — what actually matters for recommendations
+
+Here's the key insight the doc highlights: **predicting the exact star rating is often the wrong goal.** Nobody cares if you predicted 4.2 vs the true 4.4 — what matters is whether the **top 10 things you show the user** are actually good. That's what ranking metrics measure.
+
+```python
+def precision_at_k(recommended, relevant, k=10):
+    recommended_k = set(recommended[:k])
+    relevant_set   = set(relevant)
+    return len(recommended_k & relevant_set) / k
+```
+
+**Precision@K** — of the K items you recommended, what fraction were actually relevant (i.e., the user liked/interacted with them)? `recommended_k & relevant_set` is a set intersection — the items that are in *both* your recommended list and the actual relevant list. Divide by `k` since that's how many you showed.
+
+```python
+def recall_at_k(recommended, relevant, k=10):
+    recommended_k = set(recommended[:k])
+    relevant_set   = set(relevant)
+    return len(recommended_k & relevant_set) / max(len(relevant_set), 1)
+```
+
+**Recall@K** — of all the items that *were* relevant, what fraction did you manage to surface in your top K? Same intersection, but now divided by the total number of relevant items instead of K. `max(len(relevant_set), 1)` just avoids a division-by-zero if there happen to be no relevant items at all.
+
+**Precision vs Recall intuition:** precision asks "how much of what I showed was good?"; recall asks "how much of the good stuff did I manage to show?" There's a natural tension: showing more items (higher K) tends to raise recall but can lower precision.
+
+```python
+def ndcg_at_k(recommended, relevant, k=10):
+    """Normalised Discounted Cumulative Gain"""
+    dcg = sum([1/np.log2(i+2) for i, item in enumerate(recommended[:k]) if item in relevant])
+    ideal_dcg = sum([1/np.log2(i+2) for i in range(min(len(relevant), k))])
+    return dcg / ideal_dcg if ideal_dcg > 0 else 0
+```
+
+**NDCG@K (Normalized Discounted Cumulative Gain)** — the most sophisticated of the three, because it cares about **position**, not just presence. Precision/Recall treat "relevant item at rank 1" and "relevant item at rank 10" as equally good, as long as it's in the top-K somewhere. NDCG doesn't — a relevant item shown *first* is worth more than one buried at position 10, because that's closer to how users actually behave (they look at the top of the list first).
+
+- `1/np.log2(i+2)` — this is the "discount." At position `i=0` (first item), the discount is `1/log2(2) = 1`. At position `i=9` (10th item), it's `1/log2(11) ≈ 0.29`. So later positions contribute less to the score even if they're relevant.
+- `dcg` sums this discounted value only for positions where the recommended item was actually in the `relevant` set.
+- `ideal_dcg` computes what the *best possible* score would be — if all the relevant items happened to be perfectly ranked at the very top.
+- `dcg / ideal_dcg` normalizes your actual score against that best-case ceiling, giving you a 0–1 score: 1 means perfect ranking, 0 means nothing relevant was found.
+
+### Metric summary table
+
+| Metric | Meaning | Better when |
+|---|---|---|
+| RMSE / MAE | Prediction error | Lower |
+| Precision@K | % relevant in top K | Higher |
+| Recall@K | % of relevant found | Higher |
+| NDCG@K | Rewards top positions | Higher |
+| MAP@K | Mean avg precision over users | Higher |
+
+(MAP@K wasn't implemented in the doc's code, but it's essentially precision@K averaged across multiple cutoff points *and* across all users — a summary number for overall ranking quality across your whole user base.)
+
+---
+
+## Key Takeaways table — tying the whole week together
+
+| Method | Cold start | Needs content | Scalable | Interpretable |
+|---|---|---|---|---|
+| Content-based | User: ✗, Item: ✓ | ✓ | ✓ | ✓ |
+| User-User CF | Both: ✗ | ✗ | ✗ | Moderate |
+| Item-Item CF | Both: ✗ | ✗ | ✓ | ✓ |
+| Matrix Factorization | Both: ✗ | ✗ | ✓ | ✗ |
+| Hybrid | Reduced | Optional | ✓ | Moderate |
+
+This table is worth memorizing the *shape* of, not just the cells: notice content-based is the only method that handles item cold start, CF methods are interpretable but don't scale as well (user-user especially), SVD scales and performs well but you can't explain *why* it recommended something (no clean "because you liked X" story), and hybrid is the practical compromise across all four columns — which is exactly why real systems use it.
+
+---
+
+That's the full document, topic by topic. Want me to quiz you on this to check retention, or help you actually run this code end-to-end on a real MovieLens download?
