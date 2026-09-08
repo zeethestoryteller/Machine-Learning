@@ -132,6 +132,13 @@ A tree that splits data into branches based on feature values to make prediction
 - `max_depth`: maximum number of levels the tree can grow. Lower max_depth = simpler tree = usually LOWER accuracy on training data (or same), never guaranteed to increase.
 - `min_samples_split`: minimum number of samples a node MUST have to be considered for splitting.
 - `min_samples_leaf`: minimum number of samples that must exist in EACH child after a split.
+- `max_leaf_nodes` : limits the maximum number of leaf nodes (terminal nodes where predictions are made) that a Decision Tree can grow.
+-**`ccp_alpha`** (Cost-Complexity Pruning Alpha) controls the pruning penalty for a Decision Tree.
+
+  * **How it works:** Instead of stopping tree growth early (like `max_depth` or `max_leaf_nodes`), the algorithm first grows a fully overfitted tree and then prunes back branches. It balances tree size against error using the cost-complexity formula: $R_\alpha(T) = R(T) + \alpha \vert{}T\vert{}$ (where $R(T)$ is training error, $\vert{}T\vert{}$ is the number of leaf nodes, and $\alpha$ is `ccp_alpha`).
+  * **Effect of alpha:**
+  * **`ccp_alpha = 0` (default):** No pruning is performed, allowing the tree to grow to its maximum possible size (fully fitted to the training data, prone to overfitting).
+  * **Higher `ccp_alpha`:** Imposes a heavier penalty for having more leaf nodes, resulting in more aggressive pruning, a simpler tree, higher bias, and lower variance.
 
 **Splitting rule (very testable):** A split is allowed ONLY IF:
 1. The node has ≥ `min_samples_split` samples, AND
@@ -141,6 +148,17 @@ Example: `min_samples_split=6, min_samples_leaf=4`. Node has 12 samples, splits 
 - Node has 12 ≥ 6 ✓ but left child has only 3 < 4 ✗ → split NOT allowed.
 
 **Decreasing max_depth effect:** training score will "decrease or stay the same" (never increase) because a shallower tree can only be equally or less flexible.
+
+>Notes:
+>if tree is balanced then maximum number of leaf nodes at a given depth $d$ is calculated: 2^d
+>
+>maximum possible total number of nodes—both internal and leaf nodes: $2^{d+1} - 1$
+>
+>tree cannot have more leaf nodes than total training samples
+>
+>if the tree is not balanced then the max possible no of leafe nodes can not be more than $2^{d}$
+>
+>the number of leaf nodes in a pruned tree will be less than or equal to max limit $2^{d}$
 
 ### 2.5 Random Forest
 
