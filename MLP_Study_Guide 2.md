@@ -195,6 +195,11 @@ Example: y_train=[10,15,20,25,30], mean=20. So DummyRegressor predicts 20 for EV
 
 Classifies a new point by looking at its `k` closest training points (by distance) and taking a majority vote (for classification) or average (for regression).
 
+> #Note
+> $k$-Nearest Neighbors ($k$-NN) is a lazy learning algorithm (or instance-based learning algorithm).
+> It does not build an explicit generalized model during the training phase; it simply stores the training dataset.
+> when a prediction is required for a new query point, the model must compute the distance from the query point to all stored training samples, sort them, and select the $k$-nearest neighbors. This makes prediction time computationally expensive, creating a bottleneck.
+
 **Steps to solve by hand:**
 1. Compute distance (usually Euclidean) from test point to every training point.
 2. Pick the `k` smallest distances.
