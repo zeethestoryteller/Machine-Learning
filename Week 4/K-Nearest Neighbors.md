@@ -123,6 +123,7 @@ kneighbor_classifier = KNeighborsClassifier(metric='minkowski', p=2)  # both are
 
 - **`metric`:** the distance function used to decide who counts as a "neighbor." Options include `"euclidean"`, `"manhattan"`, `"chebyshev"`, `"minkowski"`, `"seuclidean"`, `"mahalanobis"`, or your own callable.
 - **`p`:** only used when `metric='minkowski'` — it's the power parameter of the Minkowski distance formula:
+ 
   $$ d(x,y) = \left(\sum_i |x_i - y_i|^p\right)^{1/p} $$
   - `p=1` → Manhattan distance (sum of absolute differences)
   - `p=2` → Euclidean distance (straight-line distance) — **this is the default combination** (`metric='minkowski', p=2` ≡ Euclidean)
