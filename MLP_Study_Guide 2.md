@@ -91,7 +91,7 @@ or (n + d) / d. But easiest is to just work it out by hand for small n like the 
 
 ## 2. Regression Algorithms
 
-# DummyRegressor:
+### 2.0 DummyRegressor:
 `strategy= 'median' , 'mean', 'quantile', 'constant'`
 it calculates value from target column then use it as a prediction for every new point.
 
