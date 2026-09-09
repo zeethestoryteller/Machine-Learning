@@ -84,11 +84,17 @@ Creates new features by multiplying existing ones together, up to a given degree
 - `include_bias=False` removes the leading `1`.
 - `interaction_only=True` removes the squared terms (x1², x2²), keeping only products of DIFFERENT features: `[1, x1, x2, x1*x2]`.
 
-**Counting output features formula:** for `n` input features and degree `d`, the count follows combinations with repetition: C(n+d, d). But easiest is to just work it out by hand for small n like the exam does.
+**Counting output features formula:** for `n` input features and degree `d`, the count follows combinations with repetition: C(n+d, d) 
+or (n + d) / d. But easiest is to just work it out by hand for small n like the exam does.
 
 ---
 
 ## 2. Regression Algorithms
+
+# DummyRegressor:
+`strategy= 'median' , 'mean', 'quantile', 'constant'`
+it calculates value from target column then use it as a prediction for every new point.
+
 
 ### 2.1 Linear Regression
 
