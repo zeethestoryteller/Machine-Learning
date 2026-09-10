@@ -84,7 +84,12 @@ Creates new features by multiplying existing ones together, up to a given degree
 - `include_bias=False` removes the leading `1`.
 - `interaction_only=True` removes the squared terms (x1², x2²), keeping only products of DIFFERENT features: `[1, x1, x2, x1*x2]`.
 
-**Counting output features formula:** for `n` input features and degree `d`, the count follows combinations with repetition: C(n+d, d) 
+>**Counting output features formula:** for `n` input features and degree `d`, the count follows combinations with repetition:
+> Fow all features: C(n+d, d) = (n+d)! / n!d!
+>
+>When include_bias = flase: C(n+d, d) - 1
+>
+>
 or (n + d) / d. But easiest is to just work it out by hand for small n like the exam does.
 
 ---
@@ -106,12 +111,21 @@ Fits a straight line/plane: `y = w0 + w1*x1 + w2*x2 + ...`
 
 **Solving trick:** If data is created by an exact formula (like `y = X·[1,1] - 1`), Linear Regression will learn that EXACT formula perfectly (since there's no noise), so you can just compute the formula on the test point yourself instead of "simulating" the model.
 
-### 2.2 Ridge & Lasso Regression (Regularized Linear Models)
+# 2.2 Ridge & Lasso Regression (Regularized Linear Models)
 
 Both add a **penalty** to keep the weights (coefficients) small, which reduces overfitting.
 
-- **Ridge (L2 penalty)**: penalizes the *sum of squares* of coefficients. Shrinks coefficients toward zero but rarely makes them exactly zero.
-- **Lasso (L1 penalty)**: penalizes the *sum of absolute values* of coefficients. CAN shrink coefficients all the way to exactly zero — this makes Lasso good for feature selection.
+> **Ridge (L2 penalty)**: penalizes the *sum of squares* of coefficients. Shrinks coefficients toward zero but rarely makes them exactly zero. Best when all features are usfull.
+
+> **Lasso (L1 penalty)**: penalizes the *sum of absolute values* of coefficients. CAN shrink coefficients all the way to exactly zero — this makes Lasso good for feature selection. best when few features are usfull
+
+> **ElasticNet**: Usfull when features are co-related.
+> 
+> Use belend of L1 + L2
+>
+> MSE + λ(ρ·L1 + (1−ρ)·L2)
+>
+> l1 ratio = 0 ridge, l1 ratio = 1 lasso
 
 **The `alpha` parameter** controls how strong the penalty is:
 - alpha = 0 → behaves just like plain Linear Regression (no penalty).
