@@ -289,7 +289,16 @@ Trains multiple copies of the SAME algorithm on different random (bootstrap = wi
 - `BaggingClassifier(base_estimator, n_estimators, max_samples, bootstrap)`
   - `bootstrap=True`: samples WITH replacement (default).
   - `bootstrap=False`: samples WITHOUT replacement.
+``` 
+BaggingClassifier/Regressor
+   → Same model TYPE, different bootstrap SAMPLES of rows (and optionally columns).
+   → Reduces VARIANCE of a single high-variance base learner.
 
+RandomForestClassifier/Regressor
+   → BaggingClassifier/Regressor, base learner fixed to DecisionTree,
+     PLUS random feature subsampling at every individual split (not just per tree).
+   → Reduces variance even further than plain bagged trees, by decorrelating the trees.
+```
 ### 4.2 Boosting
 
 Trains models SEQUENTIALLY, where each new model tries to fix the mistakes of the previous ones (focuses more on misclassified points).
