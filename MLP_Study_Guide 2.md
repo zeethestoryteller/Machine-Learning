@@ -111,7 +111,7 @@ Fits a straight line/plane: `y = w0 + w1*x1 + w2*x2 + ...`
 
 **Solving trick:** If data is created by an exact formula (like `y = X·[1,1] - 1`), Linear Regression will learn that EXACT formula perfectly (since there's no noise), so you can just compute the formula on the test point yourself instead of "simulating" the model.
 
-# 2.2 Ridge & Lasso Regression (Regularized Linear Models)
+### 2.2 Ridge & Lasso Regression (Regularized Linear Models)
 
 Both add a **penalty** to keep the weights (coefficients) small, which reduces overfitting.
 
