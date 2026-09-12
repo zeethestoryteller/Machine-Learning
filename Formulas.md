@@ -61,6 +61,28 @@ Jahan:
 $$\text{Cosine Similarity} = \frac{A \cdot B}{\Vert{}A\Vert{} \Vert{}B\Vert{}}$$
 
 ---
+**Term Frequency (TF)**
+$TF(t, d) = \frac{f_{t,d}}{\sum_{t' \in d} f_{t',d}}$
+
+* $t$: The specific term or word.
+* $d$: The specific document being evaluated.
+* $f_{t,d}$: The raw count of times term $t$ appears in document $d$.
+* The denominator represents the total number of words in document $d$.
+* Measures how frequently a term occurs within a single document.
+
+**Inverse Document Frequency (IDF)**
+$IDF(t, D) = \log\left(\frac{N}{df_t}\right)$
+
+* $N$: Total number of documents in the entire corpus $D$.
+* $df_t$: The document frequency, or the number of documents in the corpus that contain the term $t$.
+* Measures how much information the word provides. It penalizes highly frequent, generic words (like "the" or "and") across the corpus to highlight contextually significant terms. *(Note: Machine learning libraries like scikit-learn often apply smoothing by adding 1 to the numerator and denominator to prevent division by zero).*
+
+**TF-IDF Score**
+$TF\text{-}IDF(t, d, D) = TF(t, d) \times IDF(t, D)$
+
+* The final weight assigned to term $t$ in document $d$.
+* Yields a high score for a term that appears frequently in a specific document but rarely across the overall corpus, making it an excellent identifier for that document's unique subject matter.
+---
 # DummyRegressor:
 
 Ypred = mean, Median value of the Y_label
