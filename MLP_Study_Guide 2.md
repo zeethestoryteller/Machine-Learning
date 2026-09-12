@@ -300,6 +300,7 @@ RandomForestClassifier/Regressor
    → BaggingClassifier/Regressor, base learner fixed to DecisionTree,
      PLUS random feature subsampling at every individual split (not just per tree).
    → Reduces variance even further than plain bagged trees, by decorrelating the trees.
+   → Setting lower to max_features: It increases the variance among individual trees.
 ```
 ### 4.2 Boosting
 
