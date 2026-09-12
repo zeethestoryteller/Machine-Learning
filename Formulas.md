@@ -46,6 +46,16 @@ Xnew = (X-Q2) / (Q3- Q1)
 
 $$\text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} $$
 
+# Precision Score:
+$$ \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}} $$
+
+# F1 Score:
+$$ \text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} $$
+
+Jahan:
+* **TP**: True Positives (Correctly predicted positive observations)
+* **FP**: False Positives (Incorrectly predicted positive observations)
+
 # Cosine Similarity formula:
 
 $$\text{Cosine Similarity} = \frac{A \cdot B}{\Vert{}A\Vert{} \Vert{}B\Vert{}}$$
