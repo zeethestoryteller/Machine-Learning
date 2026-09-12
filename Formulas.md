@@ -322,3 +322,53 @@ Jahan:
 * **$a^{(l)}$**: Layer $l$ ka final output
 * **$\hat{y}$**: Network ka final prediction
 ---
+Decision Trees evaluate the optimal way to split data using impurity metrics rather than a single predictive weight equation. These core splitting formulas :
+
+**Gini Impurity (CART Algorithm)**
+$Gini=1-\sum_{i=1}^{C}(p_i)^2$
+
+* $C$: Total number of classes.
+* $p_i$: Probability of a data point belonging to class $i$ in that node.
+* Measures the probability of misclassifying a randomly chosen element if it were randomly labeled according to the class distribution.
+
+**Entropy (ID3 / C4.5 Algorithms)**
+$Entropy=-\sum_{i=1}^{C}p_i\log_2(p_i)$
+
+* $C$: Total number of classes.
+* $p_i$: Probability of a data point belonging to class $i$.
+* Measures the level of impurity, disorder, or uncertainty in a specific node.
+
+**Information Gain**
+$IG(S,A)=Entropy(S)-\sum_{v\in Values(A)}\frac{\vert{}S_v\vert{}}{\vert{}S\vert{}}Entropy(S_v)$
+
+* $S$: The original dataset (parent node).
+* $A$: The specific feature being evaluated for the split.
+* $S_v$: The subset of $S$ where feature $A$ has value $v$.
+* Calculates the reduction in entropy (or Gini impurity) after a dataset is split on a specific feature. The tree algorithm chooses the feature with the highest Information Gain for the split.
+
+---
+**Random Forest Regression (Averaging)**
+$\hat{y} = \frac{1}{B} \sum_{b=1}^{B} f_b(x)$
+
+* $B$: Total number of decision trees in the ensemble (forest).
+* $f_b(x)$: The prediction of the $b$-th individual tree for input $x$.
+* Averages the continuous output of all trees to reduce overall model variance and prevent overfitting.
+
+**Random Forest Classification (Majority Voting)**
+$\hat{y} = \arg\max_{c} \sum_{b=1}^{B} I(f_b(x) = c)$
+
+* $B$: Total number of decision trees.
+* $f_b(x)$: The predicted class from the $b$-th tree.
+* $I(\cdot)$: Indicator function (evaluates to $1$ if the tree predicts class $c$, and $0$ otherwise).
+* $c$: The specific class label being evaluated.
+* Outputs the class that receives the highest number of votes across all individual trees.
+
+**Out-of-Bag (OOB) Error Calculation**
+$OOB_{error} = \frac{1}{n} \sum_{i=1}^{n} L(y_i, \hat{y}_{i, OOB})$
+
+* $n$: Total number of training samples.
+* $L$: Loss function (e.g., Mean Squared Error for regression or 0-1 loss for classification).
+* $y_i$: The true target label.
+* $\hat{y}_{i, OOB}$: The aggregated prediction for the $i$-th data point using *only* the subset of trees that did not include this specific data point in their bootstrap training sample.
+* Provides a highly accurate internal validation metric without requiring a separate holdout validation dataset.
+
