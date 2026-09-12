@@ -241,7 +241,8 @@ A simple linear classifier, an early neural network unit.
 
 ### 3.4 MLPClassifier / MLPRegressor (Multi-Layer Perceptron / Neural Network)
 
-A neural network with one or more "hidden layers" of neurons.
+A neural network with one or more "hidden layers" of neurons.   
+> Scaling the data using MinMaxScaler is ecential.
 
 **`hidden_layer_sizes=(50,30)`** means: TWO hidden layers, first with 50 neurons, second with 30 neurons. (NOT features/outputs/epochs — purely the architecture of hidden layers.)
 
@@ -264,6 +265,7 @@ Example: `hidden_layer_sizes=(12,15,13,11,12,8)` → 6 hidden layers + 1 input +
 All based on Bayes' theorem but differ in what kind of data they assume:
 
 - **GaussianNB**: for CONTINUOUS numeric features assumed to follow a normal (bell-curve) distribution. Use when features are things like height, weight, age (continuous numbers).
+> The prior probability  $p(y = \text{"Yes"})$ = proportion of that class within the entire training dataset
 - **MultinomialNB**: for COUNT data (e.g., word counts in text).
 - **BernoulliNB**: for BINARY features (0/1, present/absent).
 - **CategoricalNB**: for CATEGORICAL features with multiple discrete categories (not ordered numbers).
