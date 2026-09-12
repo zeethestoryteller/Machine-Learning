@@ -15,7 +15,34 @@ Xnew = X / max absolute value of the column
 
 Xnew = (X-Q2) / (Q3- Q1)
 
-# Compute the Recall Score:
+---
+# OneHotScaler:
+<img width="1006" height="303" alt="image" src="https://github.com/user-attachments/assets/d12985ac-fa4b-4b70-bb4c-d80180b44f4b" />
+
+---
+# LabelEncoder:
+<img width="1026" height="418" alt="image" src="https://github.com/user-attachments/assets/94a660ec-7efa-4ed9-9aeb-d4786bdb818f" />
+
+---
+# OrdinalEncoder:
+<img width="995" height="261" alt="image" src="https://github.com/user-attachments/assets/d0c7d2c8-e60f-4b26-9248-56a0ac9cdc6d" />
+
+---
+# Label Binarizer:
+<img width="1017" height="271" alt="image" src="https://github.com/user-attachments/assets/0e15cbff-135a-4650-93fe-1e5e2ceae101" />
+
+
+---
+# MultiLabelBinarizer
+
+<img width="1012" height="487" alt="image" src="https://github.com/user-attachments/assets/85f9f7ac-a183-47f0-9b90-8d6d90400b7f" />
+
+---
+# Add Dummy Feature:
+<img width="992" height="185" alt="image" src="https://github.com/user-attachments/assets/e65d0b91-ffed-48ad-bff7-c31ff4dd754d" />
+
+---
+# Recall Score:
 
 $$\text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} $$
 
@@ -23,7 +50,7 @@ $$\text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} $$
 
 $$\text{Cosine Similarity} = \frac{A \cdot B}{\Vert{}A\Vert{} \Vert{}B\Vert{}}$$
 
-
+---
 # DummyRegressor:
 
 Ypred = mean, Median value of the Y_label
@@ -162,3 +189,126 @@ Jahan:
 * **$\frac{1}{2} ||w||^2$**: Margin maximization term (L2 Regularization)
 * **$\max(0, 1 - y_i (w^T x_i + b))$**: Hinge Loss (Galat classification par penalty)
 
+# SVC (Support Vector Classification) - Dual Formulation**
+SVC mein Kernel trick apply karne ke liye aam taur par Dual formulation ka use hota hai:
+
+**Dual Objective Function:**
+
+
+$$\max_{\alpha} \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i=1}^{n} \sum_{j=1}^{n} \alpha_i \alpha_j y_i y_j K(x_i, x_j)$$
+
+**Decision Function (Prediction):**
+
+
+$$\hat{y} = \text{sign} \left( \sum_{i=1}^{n} \alpha_i y_i K(x_i, x) + b \right)$$
+
+Jahan:
+
+* **$\alpha_i$**: Lagrange multipliers
+* **$K(x_i, x_j)$**: Kernel function (jaise Linear, RBF, Polynomial) jo data ko higher dimension mein map karta hai
+* **$x$**: Naya input data point
+* **$y_i$**: True class labels (-1 ya 1)
+
+
+
+# SVR (Support Vector Regression)**
+SVR regression problems ke liye $\epsilon$-insensitive loss function ka use karta hai, jahan ek specific margin ($\epsilon$) ke andar aane wale errors ko ignore kiya jata hai.
+
+**Cost Function (Primal Form):**
+
+
+$$J(w, b) = \frac{1}{2} \vert{}\vert{}w\vert{}\vert{}^2 + C \sum_{i=1}^{n} \max(0, \vert{}y_i - (w^T x_i + b)\vert{} - \epsilon)$$
+
+**Constraints (Slack Variables $\xi$ aur $\xi^*$ ke sath):**
+
+
+$$\vert{}y_i - (w^T x_i + b)\vert{} \le \epsilon + \xi_i$$
+
+Jahan:
+
+* **$w$**: Weight vector
+* **$b$**: Bias
+* **$\epsilon$** (Epsilon): Margin of tolerance (is tube ke andar error par koi penalty nahi lagti)
+* **$C$**: Regularization parameter (margin aur error tolerance ke beech ka trade-off)
+* **$\max(0, \vert{}y_i - \hat{y}_i\vert{} - \epsilon)$**: $\epsilon$-insensitive loss function
+* **$\xi_i$** (Xi): Slack variables (jo data points $\epsilon$-tube ke bahar hain unka error measure karne ke liye)
+
+---
+
+# Ridge Classifier
+
+**Cost Function (L2 Regularized Least Squares):**
+
+$$ J(W, b) = \sum_{i=1}^{n} (y_i - (W^T x_i + b))^2 + \alpha \sum_{j=1}^{p} W_j^2 $$
+
+**Matrix Form:**
+
+$$ J(W) = ||XW - Y||^2_2 + \alpha ||W||^2_2 $$
+
+**Prediction Rule:**
+
+$$ \hat{y} = \text{sign}(W^T x + b) $$
+
+*(Agar output > 0 hai toh Class +1, warna Class -1)*
+
+Jahan:
+* **$W$**: Weights (parameters)
+* **$b$**: Bias
+* **$x_i$** / **$X$**: Input features
+* **$y_i$** / **$Y$**: Target labels (converted to -1 aur 1)
+* **$\alpha$** (Alpha): Regularization strength (penalty term jo overfitting rokti hai)
+* **$p$**: Total number of features
+* **$n$**: Total number of data points
+
+---
+
+# Perceptron
+
+**1. Linear Output (Weighted Sum):**
+
+$$ z = W^T X + b = \sum_{i=1}^{n} w_i x_i + b $$
+
+**2. Activation Function (Heaviside Step Function):**
+
+$$ \hat{y} = \begin{cases} 1 & \text{if } z \ge 0 \\ 0 & \text{if } z < 0 \end{cases} $$
+*(Kahin-kahin labels -1 aur 1 bhi use hote hain, tab $\hat{y} = \text{sign}(z)$ hota hai)*
+
+**3. Weight Update Rule:**
+
+$$ W = W + \alpha (Y - \hat{Y}) X $$
+$$ b = b + \alpha (Y - \hat{Y}) $$
+
+Jahan:
+* **$W$**: Weights vector
+* **$b$**: Bias
+* **$X$**: Input features
+* **$z$**: Net input (weighted sum)
+* **$\hat{Y}$**: Predicted output (0 ya 1)
+* **$Y$**: Actual true label (0 ya 1)
+* **$\alpha$** (Alpha): Learning rate
+
+---
+# Multi-Layer Perceptron (MLP)
+
+**1. Linear Transformation (For Layer $l$):**
+
+$$ z^{(l)} = W^{(l)} a^{(l-1)} + b^{(l)} $$
+
+**2. Activation (For Layer $l$):**
+
+$$ a^{(l)} = f(z^{(l)}) $$
+
+**3. Final Prediction (Output Layer $L$):**
+
+$$ \hat{y} = a^{(L)} $$
+
+Jahan:
+* **$l$**: Current layer index (1 se lekar $L$ tak)
+* **$W^{(l)}$**: Weight matrix for layer $l$
+* **$b^{(l)}$**: Bias vector for layer $l$
+* **$a^{(l-1)}$**: Previous layer ka activation output (Input layer ke liye $a^{(0)} = X$, yani input features)
+* **$z^{(l)}$**: Layer $l$ ka net input (weighted sum)
+* **$f(\cdot)$**: Activation function (jaise ReLU, Sigmoid, ya Softmax)
+* **$a^{(l)}$**: Layer $l$ ka final output
+* **$\hat{y}$**: Network ka final prediction
+---
